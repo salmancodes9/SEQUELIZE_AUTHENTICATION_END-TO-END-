@@ -1,5 +1,13 @@
-const db = require('./config/db')
-const sequelize = require('sequelize')
+const db = require("./config/db");
+const app = require("./app");
 
-const app = require('./app')
-app.listen(5000, ()=>console.log("server running"))
+const startServer = async () => {
+  try {
+    await db.sync();
+    app.listen(5000, () => console.log("server running"));
+  } catch (err) {
+    console.error("Failed to start server:", err.message);
+  }
+};
+
+startServer();

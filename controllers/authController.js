@@ -62,11 +62,21 @@ const getMe = async (req, res) => {
   res.status(200).json({ user: req.user });
 };
 const logout = async (req, res) => {
+  try {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader?.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : authHeader;
 
-  const token = req.headers['authorization'].split(' ')[1]
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
 
-  await BlackListedToken.create({token: token})
-  return res.status(200).json({ message: "logged out sucessfully" });
+    await BlackListedToken.create({ token: token });
+    return res.status(200).json({ message: "logged out sucessfully" });
+  } catch (err) {
+    return res.status(500).json({ message: "logout failed", error: err.message });
+  }
 };
 
 module.exports = { register, login, getMe, logout };
