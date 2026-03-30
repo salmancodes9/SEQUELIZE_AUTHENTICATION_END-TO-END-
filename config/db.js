@@ -22,6 +22,7 @@ const sequelize = new Sequelize(
 );
 
     sequelize.authenticate()
+    console.error()
     .then(() => console.log("DATABASE CONNECTED SUCESSFULLY"))
     .catch((err) => console.log(err, "Error")),
 module.exports =  sequelize;
