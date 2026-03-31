@@ -9,11 +9,23 @@ const register = async (req, res) => {
   console.log("here im printing")
   try {
     const { name, email, password } = req.body;
+    if(!name){
+      return res.status(400).json({message:"username cannot be empty"})
+    }
+
+    if(!email ){
+      return res.status(400).json({message:"email cannot be empty"})
+    }
+     if(!password || password.length < 8 ){
+      return res.status(400).json({message:"password must be strong"})
+    };
+    
     const existingUser = await user.findOne({ where: { email } });
     if (existingUser)
       return res.status(400).json({ message: "Email already exists" });
    
     const hashedPassword = await bcrypt.hash(password, 10);
+   
 
     await user.create({
       name: name,

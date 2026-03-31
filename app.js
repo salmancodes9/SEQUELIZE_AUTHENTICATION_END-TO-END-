@@ -1,6 +1,7 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const user = require("./models/user");
+const Post = require("./models/Post")
 const authRoutes = require("./routes/authRoutes");
 
 const app = express();
@@ -16,5 +17,7 @@ app.get("/users", async (req, res) => {
 });
 app.use("/api/auth", authRoutes);
 // app.use("/api/auth/login", authRoutes);
+user.hasMany(Post,{ foreignKey: 'userID'})
+Post.belongsTo(user,{foreignKey:'userID'})
 
 module.exports = app;
