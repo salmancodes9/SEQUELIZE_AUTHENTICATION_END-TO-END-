@@ -10,7 +10,7 @@ const Post = sequelize.define(
     content:{
         type: DataTypes.TEXT
     },
-    userID: {
+    userId: {
       type: DataTypes.INTEGER,
     },
   },
