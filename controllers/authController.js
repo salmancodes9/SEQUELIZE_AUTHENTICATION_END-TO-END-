@@ -19,7 +19,6 @@ const register = async (req, res) => {
      if(!password || password.length < 8 ){
       return res.status(400).json({message:"password must be strong"})
     };
-    
     const existingUser = await user.findOne({ where: { email } });
     if (existingUser)
       return res.status(400).json({ message: "Email already exists" });
