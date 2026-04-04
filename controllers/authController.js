@@ -16,6 +16,7 @@ const register = async (req, res) => {
     if(!email ){
       return res.status(400).json({message:"email cannot be empty"})
     }
+
      if(!password || password.length < 8 ){
       return res.status(400).json({message:"password must be strong"})
     };
@@ -33,7 +34,7 @@ const register = async (req, res) => {
     });
     res.status(201).json({ message: "user created successfully" });
   } catch (err) {
-    return res.status(500).json({ message: "server deesnt respond" });
+    return res.status(500).json({ message: "server doesn't respond" });
   }
 };
 
