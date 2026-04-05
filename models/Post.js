@@ -5,14 +5,17 @@ const Post = sequelize.define(
   "posts",
   {
     title: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
-    content:{
-        type: DataTypes.TEXT
+    content: {
+      type: DataTypes.TEXT,
     },
     userId: {
       type: DataTypes.INTEGER,
     },
+    isDeleted:{
+      type:DataTypes.BOOLEAN
+    }
   },
   {
     tableName: "posts",

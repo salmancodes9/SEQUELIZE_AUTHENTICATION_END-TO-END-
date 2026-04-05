@@ -9,7 +9,6 @@ const createPost = async (req, res) => {
       return res.status(400).json({ message: "empty post" });
 
     const userId = req.user.id;
-
     await Post.create({
       title,
       content,
@@ -39,11 +38,10 @@ const getAllPosts = async (req, res) => {
 };
 const getMyPosts = async (req, res) => {
   try {
-        const userId = req.user.id;
+    const userId = req.user.id;
 
     const posts = await Post.findAll({
-      
-      where: { userId },
+      where: { userId, isDeleted:false },
 
       include: [
         {
@@ -59,7 +57,9 @@ const getMyPosts = async (req, res) => {
 const deletePost = async (req, res) => {
   const { id } = req.params;
 
-  const post = await Post.findOne({ where: { id } });
+  const post = await Post.findOne({
+    where: { id },
+  });
 
   if (!post) {
     return res.status(404).json({ message: "No Post Found" });
@@ -72,8 +72,6 @@ const deletePost = async (req, res) => {
   await post.destroy();
   return res.status(200).json({ message: "Post Deleted" });
 };
-
-
 
 module.exports = { createPost, getAllPosts, getMyPosts, deletePost };
 
