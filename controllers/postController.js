@@ -41,7 +41,9 @@ const getMyPosts = async (req, res) => {
     const userId = req.user.id;
 
     const posts = await Post.findAll({
-      where: { userId, isDeleted:false },
+      where: { userId
+        // isDeleted:true
+      },
 
       include: [
         {
