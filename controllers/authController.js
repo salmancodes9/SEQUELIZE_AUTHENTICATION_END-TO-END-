@@ -1,5 +1,4 @@
 const user = require("../models/user");
-const BlackListedToken = require("../models/BlackListedToken");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 // const { authPlugins } = require("mysql2");
@@ -83,8 +82,7 @@ const logout = async (req, res) => {
       return res.status(401).json({ message: "No token provided" });
     }
 
-    await BlackListedToken.create({ token: token });
-    return res.status(200).json({ message: "logged out sucessfully" });
+    
   } catch (err) {
     return res.status(500).json({ message: "logout failed", error: err.message });
   }

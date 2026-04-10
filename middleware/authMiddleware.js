@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const BlackListedToken = require("../models/BlackListedToken");
 
 const authenticate = async (req, res, next) => {
   console.log("hit");
@@ -20,12 +19,7 @@ const authenticate = async (req, res, next) => {
       return res.status(401).json({ message: "No token provided" });
     }
 
-    const isBlackListedToken = await BlackListedToken.findOne({
-      where: { token },
-    });
-    if (isBlackListedToken) {
-      return res.status(401).json({ message: "Token has been logged out " });
-    }
+   
 
     const decoded = jwt.verify(token, "learning_secret_key");
 
