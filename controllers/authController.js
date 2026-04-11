@@ -1,11 +1,9 @@
 const user = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const { authPlugins } = require("mysql2");
-// const authenticate = require("../middleware/authMiddleware");
+
 
 const register = async (req, res) => {
-  console.log("here im printing")
   try {
     const { name, email, password } = req.body;
     if(!name){

@@ -12,17 +12,10 @@ const sequelize = new Sequelize(
     dialect: "mysql",
   },
 );
-module.exports = sequelize
+module.exports =  sequelize
 
 
 
-  sequelize.authenticate()
-  .then(() => {console.log("DATABASE CONNECTED SUCESSFULLY")
-   return sequelize.sync({alter: true})
-  })
-
-  // .then(() => {console.log("practice tbale formed")})
-  .catch((err) =>{console.log(err,"error")});
 
   
 
