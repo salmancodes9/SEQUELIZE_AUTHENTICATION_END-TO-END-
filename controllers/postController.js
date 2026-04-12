@@ -1,20 +1,17 @@
 const Post = require("../models/Post");
 const user = require("../models/user");
+const createPostService = require("../services/post/createPost");
 
 const createPost = async (req, res) => {
   try {
     const { title, content } = req.body;
-
-    if (!title || !content)
-      return res.status(400).json({ message: "empty post" });
-
-    const userId = req.user.id;
-    await Post.create({
+    const result = await createPostService({
       title,
       content,
-      userId,
+      userId: req.user.id,
     });
-    return res.status(201).json({ message: "posted sucessfully" });
+
+    return res.status(201).json(result);
   } catch (err) {
     console.log(err.message);
     return res.status(400).json({ message: "try again later" });

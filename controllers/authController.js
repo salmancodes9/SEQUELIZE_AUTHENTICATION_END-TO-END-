@@ -1,88 +1,37 @@
-const user = require("../models/user");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
+const registerService = require("../services/auth/registerService");
+const loginService = require("../services/auth/loginService");
+const logoutService = require("../services/auth/logoutService");
 
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    if(!name){
-      return res.status(400).json({message:"username cannot be empty"})
-    }
-
-    if(!email ){
-      return res.status(400).json({message:"email cannot be empty"})
-    }
-
-     if(!password || password.length < 8 ){
-      return res.status(400).json({message:"password must be strong"})
-    };
-    const existingUser = await user.findOne({ where: { email } });
-    if (existingUser)
-      return res.status(400).json({ message: "Email already exists" });
-   
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    await user.create({
-      name: name,
-      email: email,
-      password: hashedPassword,
-    });
-    res.status(201).json({ message: "user created successfully" });
+    const user = await registerService(req.body);
+    res.status(201).json({ message: "user created successfully", user });
   } catch (err) {
-    return res.status(500).json({ message: "server doesn't respond" });
+    return res.status(400).json({ message: err.message });
   }
 };
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const existingUser = await user.findOne({ where: { email } });
-
-    if (!existingUser)
-      return res.status(400).json({ message: "Email dosent exist" });
-
-    const hashedpassword = await bcrypt.compare(
-      password,
-      existingUser.password,
-    );
-
-    if (hashedpassword === true) {
-      const token = jwt.sign(
-        {
-          id: existingUser.id,
-          email: existingUser.email,
-        },
-        "learning_secret_key",
-        { expiresIn: "1h" }, // timing change fro exisitng and after change token
-      );
-      return res
-        .status(200)
-        .json({ message: "Login successfully", token: token });
-    } else {
-      return res.status(400).json({ message: "Password Incorrect" });
-    }
+    const result = await loginService(req.body);
+    return res.status(200).json(result);
   } catch (err) {
-    return res.status(500).json({ message: " Server doesnt respond" });
+    return res.status(400).json({ message: err.message });
   }
 };
+
 const getMe = async (req, res) => {
   res.status(200).json({ user: req.user });
 };
+
 const logout = async (req, res) => {
   try {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader?.startsWith("Bearer ")
-      ? authHeader.split(" ")[1]
-      : authHeader;
-
-    if (!token) {
-      return res.status(401).json({ message: "No token provided" });
-    }
-
-    
+    const result = await logoutService(req.user.id);
+    return res.status(200).json({ message: "loged out", logoutService });
   } catch (err) {
-    return res.status(500).json({ message: "logout failed", error: err.message });
+    return res
+      .status(500)
+      .json({ message: "logout failed", error: err.message });
   }
 };
 

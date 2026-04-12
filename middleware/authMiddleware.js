@@ -19,8 +19,6 @@ const authenticate = async (req, res, next) => {
       return res.status(401).json({ message: "No token provided" });
     }
 
-   
-
     const decoded = jwt.verify(token, "learning_secret_key");
 
     req.user = decoded;
