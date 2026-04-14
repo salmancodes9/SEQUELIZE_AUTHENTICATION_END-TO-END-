@@ -1,6 +1,9 @@
 const Post = require("../models/Post");
 const user = require("../models/user");
-const createPostService = require("../services/post/createPost");
+const createPostService = require("../services/post/createPostService");
+const deleteMyPostService = require("../services/post/deleteMyPostService");
+const getAllPostsService = require("../services/post/getAllPostsService");
+const getMyPostsService = require("../services/post/getMyPostsService");
 
 const createPost = async (req, res) => {
   try {
@@ -20,14 +23,7 @@ const createPost = async (req, res) => {
 
 const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.findAll({
-      include: [
-        {
-          model: user,
-          attributes: ["name", "email"],
-        },
-      ],
-    });
+    const posts = await getAllPostsService();
     return res.status(200).json({ posts });
   } catch (err) {
     return res.status(500).json({ message: "something went wrong with posts" });
@@ -35,42 +31,24 @@ const getAllPosts = async (req, res) => {
 };
 const getMyPosts = async (req, res) => {
   try {
-    const userId = req.user.id;
-
-    const posts = await Post.findAll({
-      where: { userId
-        // isDeleted:true
-      },
-
-      include: [
-        {
-          model: user,
-          attributes: ["name", "email"],
-        },
-      ],
-    });
-    return res.status(200).json({ posts });
-  } catch (err) {}
+    const post = await getMyPostsService(req.user.id);
+    return res.status(200).json({ post });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 };
 
 const deletePost = async (req, res) => {
   const { id } = req.params;
 
-  const post = await Post.findOne({
-    where: { id },
-  });
-
-  if (!post) {
-    return res.status(404).json({ message: "No Post Found" });
+  try {
+    const post = await deleteMyPostService(id, req.user.id);
+    // return res.status(200).json({ message: "Post Deleted " });
+  } catch (err) {
+    return res.status(err.status || 400).json({ message: err.message});
   }
-
-  if (post.userId !== req.user.id) {
-    return res.status(403).json({ message: "Not your Post" });
-  }
-
-  await post.destroy();
-  return res.status(200).json({ message: "Post Deleted" });
 };
+
 
 module.exports = { createPost, getAllPosts, getMyPosts, deletePost };
 
