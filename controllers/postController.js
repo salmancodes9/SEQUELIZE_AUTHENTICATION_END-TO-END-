@@ -4,15 +4,32 @@ const createPostService = require("../services/post/createPostService");
 const deleteMyPostService = require("../services/post/deleteMyPostService");
 const getAllPostsService = require("../services/post/getAllPostsService");
 const getMyPostsService = require("../services/post/getMyPostsService");
+const s3UploadService = require("../services/aws/s3UploadService");
+const getS3SignedUrl = require("../services/aws/s3SignedUrlService");
 
 const createPost = async (req, res) => {
   try {
     const { title, content } = req.body;
+
+    let imageUrl = null;
+    if (req.file) {
+      imageUrl = await s3UploadService(
+        req.file.originalname,
+        req.file.buffer,
+        req.file.mimetype,
+      );
+    }
+
     const result = await createPostService({
       title,
+      imageUrl,
       content,
       userId: req.user.id,
     });
+
+    if (result.post?.imageUrl) {
+      result.post.imageUrl = await getS3SignedUrl(result.post.imageUrl);
+    }
 
     return res.status(201).json(result);
   } catch (err) {
@@ -45,10 +62,9 @@ const deletePost = async (req, res) => {
     const post = await deleteMyPostService(id, req.user.id);
     // return res.status(200).json({ message: "Post Deleted " });
   } catch (err) {
-    return res.status(err.status || 400).json({ message: err.message});
+    return res.status(err.status || 400).json({ message: err.message });
   }
 };
-
 
 module.exports = { createPost, getAllPosts, getMyPosts, deletePost };
 

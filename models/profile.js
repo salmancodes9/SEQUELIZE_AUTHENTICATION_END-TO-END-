@@ -22,6 +22,11 @@ const profile = sequelize.define('profiles',{
     },
     Intrests:{
         type:DataTypes.TEXT
+    },
+    userVisits: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
     }
 
 

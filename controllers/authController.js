@@ -4,8 +4,8 @@ const logoutService = require("../services/auth/logoutService");
 
 const register = async (req, res) => {
   try {
-    const user = await registerService(req.body);
-    res.status(201).json({ message: "user created successfully", user });
+    const result = await registerService(req.body);
+    res.status(201).json(result);
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
