@@ -10,7 +10,7 @@ const s3Client = new S3Client({
 
 module.exports = async (fileName, fileBuffer, mimeType) => {
   const key = `posts/${Date.now()}-${fileName}`;
-  
+
   const params = {
     Bucket: process.env.AWS_S3_BUCKET,
     Key: key,

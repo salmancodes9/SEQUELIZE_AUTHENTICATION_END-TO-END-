@@ -1,6 +1,11 @@
 const user = require("../../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not configured");
+}
 
 module.exports = async ({ name, email, password }) => {
   if (!name) throw new Error("empty field");
@@ -22,7 +27,7 @@ module.exports = async ({ name, email, password }) => {
       id: createdUser.id,
       email: createdUser.email,
     },
-    "learning_secret_key",
+    JWT_SECRET,
     { expiresIn: "4h" },
   );
 

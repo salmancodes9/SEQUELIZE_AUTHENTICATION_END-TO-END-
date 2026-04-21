@@ -1,4 +1,9 @@
 const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not configured");
+}
 
 const authenticate = async (req, res, next) => {
   console.log("hit");
@@ -19,7 +24,7 @@ const authenticate = async (req, res, next) => {
       return res.status(401).json({ message: "No token provided" });
     }
 
-    const decoded = jwt.verify(token, "learning_secret_key");
+    const decoded = jwt.verify(token, JWT_SECRET);
 
     req.user = decoded;
     next();
