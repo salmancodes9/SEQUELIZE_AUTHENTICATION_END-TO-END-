@@ -3,9 +3,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
-if (!JWT_SECRET) {
-  throw new Error("JWT_SECRET is not configured");
-}
+// if (!JWT_SECRET) {
+//   throw new Error("JWT_SECRET is not configured");
+// }
 
 module.exports = async ({ email, password }) => {
   if (!email || !password) throw new Error("empty field");

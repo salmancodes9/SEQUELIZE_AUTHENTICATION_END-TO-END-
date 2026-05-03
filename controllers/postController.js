@@ -7,6 +7,7 @@ const getMyPostsService = require("../services/post/getMyPostsService");
 const s3UploadService = require("../services/aws/s3UploadService");
 const getS3SignedUrl = require("../services/aws/s3SignedUrlService");
 
+
 const createPost = async (req, res) => {
   try {
     const { title, content } = req.body;
@@ -20,7 +21,7 @@ const createPost = async (req, res) => {
       );
     }
 
-    const result = await createPostService({
+    const result = await createPostService({  
       title,
       imageUrl,
       content,
@@ -30,11 +31,11 @@ const createPost = async (req, res) => {
     if (result.post?.imageUrl) {
       result.post.imageUrl = await getS3SignedUrl(result.post.imageUrl);
     }
-
+   
     return res.status(201).json(result);
   } catch (err) {
-    console.log(err.message);
-    return res.status(400).json({ message: "try again later" });
+    console.error("CREATE POST ERROR:", err);
+    return res.status(500).json({ message: err.message || "try again later" });
   }
 };
 
@@ -46,6 +47,8 @@ const getAllPosts = async (req, res) => {
     return res.status(500).json({ message: "something went wrong with posts" });
   }
 };
+
+
 const getMyPosts = async (req, res) => {
   try {
     const post = await getMyPostsService(req.user.id);
@@ -55,12 +58,13 @@ const getMyPosts = async (req, res) => {
   }
 };
 
+
 const deletePost = async (req, res) => {
   const { id } = req.params;
 
   try {
     const post = await deleteMyPostService(id, req.user.id);
-    // return res.status(200).json({ message: "Post Deleted " });
+    return res.status(200).json({ message: "Post Deleted " });
   } catch (err) {
     return res.status(err.status || 400).json({ message: err.message });
   }

@@ -14,14 +14,14 @@ Post.belongsTo(User, { foreignKey: "userId" });
 User.hasOne(profile, { foreignKey: "userId" });
 profile.belongsTo(User, { foreignKey: "userId" });
 
-app.get("/users", async (req, res, next) => {
-  try {
-    const users = await User.findAll();
-    res.status(200).json(users);
-  } catch (error) {
-    next(error);
-  }
-});
+// app.get("/users", async (req, res, next) => {
+//   try {
+//     const users = await User.findAll();
+//     res.status(200).json(users);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);

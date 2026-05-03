@@ -9,10 +9,13 @@ const s3Client = new S3Client({
   },
 });
 
-const extractObjectKey = (value) => {
+const extractObjectKey = (value) => { //function
   if (!value) return null;
 
-  if (value.startsWith("http://") || value.startsWith("https://")) {
+  if (value.startsWith("http://") 
+    || 
+  value.startsWith("https://")
+  ) {
     try {
       const parsed = new URL(value);
       return decodeURIComponent(parsed.pathname.replace(/^\//, ""));
@@ -24,7 +27,7 @@ const extractObjectKey = (value) => {
   return value.replace(/^\//, "");
 };
 
-module.exports = async (storedImagePath) => {
+module.exports = async (storedImagePath) => { //imageUrl
   const key = extractObjectKey(storedImagePath);
 
   if (!key) {

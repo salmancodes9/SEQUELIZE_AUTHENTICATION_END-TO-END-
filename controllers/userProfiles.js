@@ -1,23 +1,40 @@
 const profile = require("../models/profile");
 
+const s3UploadService = require("../services/aws/s3UploadService");
+// const getS3SignedUrl = require("../services/aws/s3SignedUrlService");
+
 const createProfile = async (req, res) => {
   try {
-    const { Name, Bio, Education, Exp, Skills, Intrests } = req.body;
+    const {  Name, Bio, 
+      // Education, Exp, 
+      // Skills, Intrests
+     } = req.body;
+     let profilePicUrl = null
+     if(req.file){
+      profilePicUrl = await s3UploadService(
+      req.file.originalname,
+      req.file.buffer,
+      req.file.mimetype
+
+    )
+  }
+        if (!profilePicUrl) return res.status(400).json({ message: "Add Profile Pic for Verification" });
 
     if (!Name) return res.status(400).json({ message: "empty field" });
-    if (!Bio || !Education) {
-      throw new Error("Bio and Education fields are mandatory");
-    }
+   
+    
     const userId = req.user.id;
 
     await profile.create({
+      profilePicUrl,
       Name,
       Bio,
-      Education,
-      Exp,
-      Skills,
-      Intrests,
-      userId,
+       userId,
+      // Education,
+      // Exp,
+      // Skills,
+      // Intrests,
+     
     });
     return res.status(201).json({ message: "Profile created" });
   } catch (err) {
@@ -69,7 +86,7 @@ const inspectProfile = async (req, res) => {
 const getAllProfiles = async (req, res) => {
   try {
     const allProfiles = await profile.findAll({
-      attributes:["id","Name","Bio","Education","Exp","Skills","intrests","userId"]
+      attributes:["id","Name","Bio","profilePicUrl","userId"]
     });
     return res.status(200).json({ allProfiles });
   } catch (err) {
