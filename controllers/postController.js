@@ -14,10 +14,11 @@ const createPost = async (req, res) => {
 
     let imageUrl = null;
     if (req.file) {
-      imageUrl = await s3UploadService(
+    imageUrl = await s3UploadService(
         req.file.originalname,
         req.file.buffer,
         req.file.mimetype,
+        'posts'
       );
     }
 

@@ -16,7 +16,9 @@ const profile = sequelize.define('profiles',{
     Bio:{
         type:DataTypes.TEXT
     },
-    
+    userId:{
+        type:DataTypes.INTEGER
+    }
     // Education:{
     //     type:DataTypes.TEXT
     // },

@@ -17,4 +17,7 @@ const user = sequelize.define("users", {
     timestamps: false
 }
 );
+
+
 module.exports = user;
+

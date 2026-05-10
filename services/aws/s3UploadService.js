@@ -8,13 +8,14 @@ const s3Client = new S3Client({
   },
 });
 
-module.exports = async (fileName, fileBuffer, mimeType) => {
-  const key = `posts/${Date.now()}-${fileName}`;
+module.exports = async (fileName, fileBuffer, mimeType, folder = 'posts') => {
+  // const key = `posts/${Date.now()}-${fileName}`;
+ const key = `${folder}/${Date.now()}-${fileName}`;
 
   const params = {
     Bucket: process.env.AWS_S3_BUCKET,
     Key: key,
-    Body: fileBuffer,
+    Body: fileBuffer, 
     ContentType: mimeType,
   };
 
