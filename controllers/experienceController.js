@@ -1,4 +1,4 @@
-const experience = require("../models/experience");
+const experience = require("../models/profile/experience");
 
 const addExperience = async (req, res) => {
   try {
@@ -10,6 +10,7 @@ const addExperience = async (req, res) => {
       employmentType,
       userId: req.user.id,
     });
+    if(!company ) throw new Error(" please select a company")
     res.status(201).json({
       message: "exp added",
       createExperience,

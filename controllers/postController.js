@@ -7,22 +7,21 @@ const getMyPostsService = require("../services/post/getMyPostsService");
 const s3UploadService = require("../services/aws/s3UploadService");
 const getS3SignedUrl = require("../services/aws/s3SignedUrlService");
 
-
 const createPost = async (req, res) => {
   try {
     const { title, content } = req.body;
 
     let imageUrl = null;
     if (req.file) {
-    imageUrl = await s3UploadService(
+      imageUrl = await s3UploadService(
         req.file.originalname,
         req.file.buffer,
         req.file.mimetype,
-        'posts'
+        "posts",
       );
     }
 
-    const result = await createPostService({  
+    const result = await createPostService({
       title,
       imageUrl,
       content,
@@ -32,7 +31,7 @@ const createPost = async (req, res) => {
     if (result.post?.imageUrl) {
       result.post.imageUrl = await getS3SignedUrl(result.post.imageUrl);
     }
-   
+
     return res.status(201).json(result);
   } catch (err) {
     console.error("CREATE POST ERROR:", err);
@@ -49,7 +48,6 @@ const getAllPosts = async (req, res) => {
   }
 };
 
-
 const getMyPosts = async (req, res) => {
   try {
     const post = await getMyPostsService(req.user.id);
@@ -58,7 +56,6 @@ const getMyPosts = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
-
 
 const deletePost = async (req, res) => {
   const { id } = req.params;

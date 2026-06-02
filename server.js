@@ -8,15 +8,10 @@ const startServer = async () => {
 
     app.listen(5000, () => console.log("server running"));
   } catch (err) {
-    console.error("Failed to start server:", err.message);
+    console.error("Failed to start server:", err);
+    process.exit(1);
   }
 };
 
-//  sequelize.authenticate()
-// .then(() => {console.log("DATABASE CONNECTED SUCESSFULLY")
-//  return  sequelize.sync({alter: true})
-// })
-
-// .catch((err) =>{console.log(err,"error")});
-
+// Start server with a single authenticate + sync flow
 startServer();

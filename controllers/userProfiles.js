@@ -7,12 +7,7 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 const createProfile = async (req, res) => {
   try {
-    const {
-      Name,
-      Bio,
-      // Education, Exp,
-      // Skills, Intrests
-    } = req.body;
+    const { Name, Bio } = req.body;
     let profileImageUrl = null;
     if (req.file) {
       profileImageUrl = await s3UploadService(
@@ -22,7 +17,6 @@ const createProfile = async (req, res) => {
         "profiles/",
       );
     }
-    // if (!profilePicUrl) return res.status(400).json({ message: "Add Profile Pic for Verification" });
 
     if (!Name) return res.status(400).json({ message: "empty field" });
 
@@ -33,10 +27,6 @@ const createProfile = async (req, res) => {
       Name,
       Bio,
       userId,
-      // Education,
-      // Exp,
-      // Skills,
-      // Intrests,
     });
     if (profileCreation.profileImageUrl) {
       profileCreation.profileImageUrl = await getS3SignedUrl(
@@ -53,6 +43,10 @@ const createProfile = async (req, res) => {
     return res.status(400).json({ message: "something went wrong" });
   }
 };
+
+
+
+
 const getMyProfile = async (req, res) => {
   try {
     const userId = req.user.id;
