@@ -3,8 +3,8 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/db");
 
 
-const education = sequelize.define(
-  "education",
+const Education = sequelize.define(
+  "Education",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -13,7 +13,7 @@ const education = sequelize.define(
       allowNull: false,
       autoIncrement: true
     },
-    userid: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -53,4 +53,4 @@ const education = sequelize.define(
     timestamps: true,
   },
 );
-module.exports = education;
+module.exports = Education;

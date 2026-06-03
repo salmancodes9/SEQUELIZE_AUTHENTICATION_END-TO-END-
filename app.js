@@ -2,8 +2,11 @@ const express = require("express");
 const User = require("./models/user");
 const Post = require("./models/Post");
 const profile = require("./models/profile");
-const education = require("./models/profile/education");
-const experience = require("./models/profile/experience")
+
+const Education = require("./models/profile/education");
+const Experience = require("./models/profile/experience")
+const Skills = require("./models/skills/skills");
+const UserSkills = require("./models/skills/userSkills");
 const postRoutes = require("./routes/postRoutes");
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
@@ -18,14 +21,25 @@ Post.belongsTo(User, { foreignKey: "userId" });
 User.hasOne(profile, { foreignKey: "userId" });
 profile.belongsTo(User, { foreignKey: "userId" });
 // Education model association
-education.belongsTo(User, { foreignKey: "userid" });
-User.hasMany(education, { foreignKey: "userid" });
-experience.belongsTo(User, {
+Education.belongsTo(User, { foreignKey: "userId" });
+User.hasMany(Education, { foreignKey: "userId" });
+Experience.belongsTo(User, {
   foreignKey: "userId",
 });
-User.hasMany(experience, {
+User.hasMany(Experience, {
   foreignKey: "userId",
   // onDelete:"CASCADE"
+});
+
+User.belongsToMany(Skills, {
+  through: UserSkills,
+  foreignKey: "userId",
+  otherKey: "skillId",
+});
+Skills.belongsToMany(User, {
+  through: UserSkills,
+  foreignKey: "skillId",
+  otherKey: "userId",
 });
 
 app.use("/api/auth", authRoutes);

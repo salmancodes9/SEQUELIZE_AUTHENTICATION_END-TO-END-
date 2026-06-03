@@ -1,9 +1,18 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/db");
 
-  const experience = sequelize.define(
-    "experience", 
+  const Experience = sequelize.define(
+    "Experience", 
     {
+      id:{
+        type: DataTypes.INTEGER,
+        primaryKey:true,
+        autoIncrement:true
+      },
+      userId:{
+        type:DataTypes.INTEGER,
+        allowNull:false
+      },
 
     company: {
       type: DataTypes.STRING,
@@ -17,20 +26,32 @@ const sequelize = require("../../config/db");
     employmentType: {
       type: DataTypes.STRING,
     },
-    // userId: {
-    //     type: DataTypes.INTEGER
+    startDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
 
-    // }
+    endDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+
+    currentlyWorking: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
 },
 
   {
     tableName: "experience",
-    timestamps: false
+    timestamps: true
 
   });
 
-// experience.belongsTo(models.User, {
-//   foreignKey: "userId"
-// });
 
-module.exports = experience;
+module.exports = Experience;
