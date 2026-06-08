@@ -4,13 +4,13 @@ const Post = require("./models/Post");
 const profile = require("./models/profile");
 
 const Education = require("./models/profile/education");
-const Experience = require("./models/profile/experience")
+const Experience = require("./models/profile/experience");
 const Skills = require("./models/skills/skills");
 const UserSkills = require("./models/skills/userSkills");
 const postRoutes = require("./routes/postRoutes");
 const authRoutes = require("./routes/authRoutes");
-const profileRoutes = require("./routes/profileRoutes");
-const experienceRoutes = require("./routes/experienceRoutes");
+const profileRoutes = require("./routes/profileRoutes/profileRoutes");
+const experienceRoutes = require("./routes/profileRoutes/experienceRoutes");
 // const { Model } = require("sequelize");
 
 const app = express();
