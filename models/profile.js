@@ -19,28 +19,10 @@ const profile = sequelize.define('profiles',{
     userId:{
         type:DataTypes.INTEGER
     }
-    // Education:{
-    //     type:DataTypes.TEXT
-    // },
-    // Exp:{
-    //     type:DataTypes.TEXT
-    // },
-    // Skills:{
-    //     type:DataTypes.TEXT
-    // },
-    // Intrests:{
-    //     type:DataTypes.TEXT
-    // },
-    // userVisits: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     defaultValue: 0
-    // }
-
-
+   
 },
 {
     tableName: 'profiles',
-    timestamps: false
+    timestamps: true
 })
 module.exports = profile;

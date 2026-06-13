@@ -17,16 +17,26 @@ const Education = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    school: {
-      type: DataTypes.STRING,
+    schoolId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "schools",
+        key: "id",
+      },
+    },
+    degreeId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
-    degree: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    fieldOfStudyId: {
+      type: DataTypes.INTEGER,
+      allowNull:false
+
     },
-    Subject: {
-      type: DataTypes.STRING,
+    currentlyStudying: {
+      type: DataTypes.BOOLEAN,
+      // defaultValue: null,
       allowNull: false,
     },
     startDate: {
