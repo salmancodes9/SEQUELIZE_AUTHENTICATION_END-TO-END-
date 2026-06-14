@@ -4,7 +4,7 @@ const app = require("./app");
 const startServer = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true })
+    await sequelize.sync();
     console.log("syncing successfull");
 
     app.listen(5000, () => console.log("server running"));
