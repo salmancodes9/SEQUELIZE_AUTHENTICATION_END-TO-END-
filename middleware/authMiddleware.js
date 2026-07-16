@@ -6,7 +6,6 @@ if (!JWT_SECRET) {
 }
 
 const authenticate = async (req, res, next) => {
-  console.log("hit");
 
   try {
     const authHeader = req.headers["authorization"];
