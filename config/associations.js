@@ -9,8 +9,9 @@ const {
   Experience,
   Skills,
   UserSkills,
+  
 } = require("../models");
-
+const Message = require("../models/socketData/Message")
 User.hasMany(Post, { foreignKey: "userId" });
 Post.belongsTo(User, { foreignKey: "userId" });
 
@@ -22,7 +23,6 @@ User.hasMany(Education, { foreignKey: "userId" });
 
 Education.belongsTo(School, { foreignKey: "schoolId" });
 School.hasMany(Education, { foreignKey: "schoolId" });
-
 Experience.belongsTo(User, { foreignKey: "userId" });
 User.hasMany(Experience, { foreignKey: "userId" });
 
@@ -40,6 +40,11 @@ Skills.belongsToMany(User, {
 
 Education.belongsTo(degree, { foreignKey: "degreeId" });
 Education.belongsTo(fieldOfStudy, { foreignKey: "fieldOfStudyId" });
+
+Message.belongsTo(User, {as: "sender", foreignKey: " senderId"});
+Message.belongsTo(User, {as: "reciver", foreignKey: "receiverId"})
+
+
 
 module.exports = {
   User,

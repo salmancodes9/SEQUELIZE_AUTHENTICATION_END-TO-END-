@@ -11,7 +11,7 @@ function initWebSocket(server) {
       socket.close();
       return;
     }
-    socket.userId = user.Id;
+    socket.userId = user.id;
     console.log(`${user.id}, ${socket.userId}, connected`);
 
     console.log("client connected");
@@ -19,3 +19,4 @@ function initWebSocket(server) {
 }
 
 module.exports = initWebSocket;
+//User A  ──(TCP pipe / socket A)──►  [ SERVER ]  ◄──(TCP pipe / socket B)──  User B
