@@ -41,8 +41,8 @@ Skills.belongsToMany(User, {
 Education.belongsTo(degree, { foreignKey: "degreeId" });
 Education.belongsTo(fieldOfStudy, { foreignKey: "fieldOfStudyId" });
 
-Message.belongsTo(User, {as: "sender", foreignKey: " senderId"});
-Message.belongsTo(User, {as: "reciver", foreignKey: "receiverId"})
+Message.belongsTo(User, {as: "sender", foreignKey: "senderId"});
+Message.belongsTo(User, {as: "receiver", foreignKey: "receiverId"})
 
 
 

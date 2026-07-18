@@ -1,5 +1,6 @@
 const { WebSocketServer } = require("ws");
 const verifySocketToken = require("./socketAuth");
+const handleMessage = require("./handlers/messageHandler");
 
 function initWebSocket(server) {
   const wss = new WebSocketServer({ server: server });
@@ -15,6 +16,12 @@ function initWebSocket(server) {
     console.log(`${user.id}, ${socket.userId}, connected`);
 
     console.log("client connected");
+    socket.on("message" , (data)=>{
+      const msg = JSON.parse(data.toString());
+      console.log("Sender's userId:", socket.userId);
+
+      handleMessage(msg,socket)
+    })
   });
 }
 
