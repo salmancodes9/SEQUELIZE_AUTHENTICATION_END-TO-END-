@@ -17,9 +17,7 @@ const Message = sequelize.define(
       type: DataTypes.ENUM("sent" , "delivered", "read"),
       defaultValue: "sent"
     },
-    // isRead: {
-    //   type: DataTypes.BOOLEAN,
-    // },
+   
   },
 
   {
