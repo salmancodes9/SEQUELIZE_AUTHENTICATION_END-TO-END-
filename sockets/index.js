@@ -4,6 +4,7 @@ const handleMessage = require("./handlers/messageHandler");
 const onlineUsers = require("../sockets/utils/onlineUsers");
 const deliverPendingMessages = require("../sockets/handlers/deliverPendingMessages");
 const handleMarkAsRead = require("./handlers/readHandler");
+const handleTyping = require("../sockets/handlers/typeHandler")
 
 
 
@@ -18,7 +19,7 @@ function initWebSocket(server) {
       return;
     }
     socket.userId = user.id;
-    onlineUsers.set(socket.userId, socket);
+    onlineUsers.set(socket.userId, socket);   
     console.log(`${user.id}, ${socket.userId}, connected`);
     deliverPendingMessages(socket);
 
@@ -38,6 +39,9 @@ function initWebSocket(server) {
         handleMessage(msg, socket);
        } else if(msg.type === "markAsRead"){
         handleMarkAsRead(msg, socket)
+       }
+       else if(msg.type === "typing"){
+        handleTyping(msg, socket)
        }
       } catch (err) {
         console.error("Invalid JSON received:", err.message);
