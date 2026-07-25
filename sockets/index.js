@@ -47,6 +47,9 @@ function initWebSocket(server) {
         console.error("Invalid JSON received:", err.message);
       }
     });
+    socket.on("close", () =>{
+      onlineUsers.delete(socket.userId)
+    })
   });
 }
 
