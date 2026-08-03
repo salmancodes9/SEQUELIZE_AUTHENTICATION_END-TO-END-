@@ -13,7 +13,7 @@ function initWebSocket(server) {
   wss.on("connection", (socket, req) => {
     const user = verifySocketToken(req);
     if (!user) {
-      socket.close();
+      socket.close(); 
       return;
     }
     socket.userId = user.id;
@@ -21,7 +21,8 @@ function initWebSocket(server) {
     console.log(`${user.id}, ${socket.userId}, connected`);
     deliverPendingMessages(socket);
 
-    console.log("client connected");
+    console.log("client connected"); 
+
     socket.on("message", (data) => {
       const text = data.toString().trim();
 
